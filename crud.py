@@ -16,7 +16,7 @@ class EmployeeModel(db.Model):
     email = db.Column(db.String(), nullable=False)
     phoneNumber = db.Column(db.String(), nullable=False)
     title = db.Column(db.String(), nullable=False)
-    level = db.Column(db.Integer, nullable=False)
+    level = db.Column(db.String(), nullable=False)
     yoe = db.Column(db.Integer, nullable=False)
     salary = db.Column(db.Integer, nullable=False)
     department_name = db.Column(db.String(), nullable=False)
@@ -104,6 +104,28 @@ class DepartmentModel(db.Model):
     def getDepartmentById(cls, departmentId):
         return cls.query.filter_by(id=departmentId).first()
 
+    @classmethod
+    def EditDepartmentById(cls, id, name=None):
+        record = cls.query.filter_by(id=id).first()
+
+        if record:
+            record.name = name
+            db.session.commit()
+            return True
+        else:
+            return False
+
+    @classmethod
+    def deleteDepartmentById(cls, id):
+        record = cls.query.filter_by(id=id)
+
+        if record.first():
+            record.delete()
+            db.session.commit()
+            return True
+        else:
+            return False
+
 
 @app.before_first_request
 def create_tables():
@@ -145,6 +167,37 @@ def departmentViewEmployees(id):
 
     return render_template('departmentEmployees.html', department_employees=employees,
                            department=departmentEmployees)
+
+
+@app.route('/department/edit/<int:id>', methods=['POST'])
+def editDepartment(id):
+    if request.method == 'POST':
+        name = request.form['name']
+
+        update = DepartmentModel.EditDepartmentById(id=id, name=name)
+
+        if update:
+            flash('Department updated successfully', 'success')
+            return redirect(url_for('departments'))
+        else:
+            flash('Update error', 'danger')
+            return redirect(url_for('departments'))
+
+
+@app.route('/department/delete/<int:id>', methods=['POST'])
+def deleteDepartment(id):
+
+    delete = DepartmentModel.deleteDepartmentById(id)
+
+    if delete:
+
+        flash('Department deleted successfully', 'success')
+        return redirect(url_for('departments'))
+
+    else:
+
+        flash('Delete error', 'danger')
+        return redirect(url_for('departments'))
 
 
 @app.route('/employees', methods=['GET', 'POST'])

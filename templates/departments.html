@@ -29,6 +29,8 @@
 
                <div class="form-group">
                    <button type="submit" class="btn btn-success">Submit</button>
+                   <button type="button" class="btn btn-sm btn-close btn-secondary" data-dismiss="modal">Cancel</button>
+
                </div>
             </form>
       </div>
@@ -43,6 +45,8 @@
               <th scope="col">ID</th>
               <th scope="col">Department Name</th>
               <th scope="col">View Employees</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -51,6 +55,67 @@
               <th scope="row">{{ each.id }}</th>
               <td>{{ each.name }}</td>
               <th scope="row"><a href="/department/employees/{{ each.id }}">View Employees</a></th>
+
+              <td>
+                <button data-toggle="modal" data-target="#exampleModal{{ each.id }}" class="btn btn-sm btn-warning">Edit</button>
+
+                <div class="modal fade" id="exampleModal{{ each.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit department with the ID: {{ each.id }}
+                              and the name: {{ each.name }}
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <form action="/department/edit/{{ each.id }}" method="post">
+                                <div class="form-group">
+                                        <label for="name">Department name</label>
+                                        <input value="{{ each.name }}" type="text" name="name" class="form-control form-control-sm" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-sm btn-success">Save Changes</button>
+                                    <button type="button" class="btn btn-sm btn-close btn-secondary" data-dismiss="modal">Cancel</button>
+
+                                </div>
+
+                            </form> 
+                          </div>     
+
+              </td>
+
+              <td>
+
+                  <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete{{ each.id }}">Delete</button>
+
+                  <div class="modal" id="delete{{ each.id }}" tabindex="-1" role="dialog">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Delete employee</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            Are you sure you want to delete this department's record?
+                          </div>
+                          <div class="modal-footer">
+                              <form action="/department/delete/{{ each.id }}" method="post">
+                                <button type="submit" class="btn btn-sm btn-success">Delete</button>
+                              </form>
+                            <button type="button" class="btn btn-sm btn-close btn-secondary" data-dismiss="modal">Cancel</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+              </td>
             </tr>
           {% endfor %}
           </tbody>
