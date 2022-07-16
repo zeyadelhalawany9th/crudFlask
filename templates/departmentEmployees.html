@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <h1>Departments Employees</h1>
+    <h1>Department Name:  {{ department.name }}</h1>
+
+    <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Gender</th>
+              <th scope="col">Email</th>
+              <th scope="col">Phone Number</th>
+              <th scope="col">Title</th>
+              <th scope="col">Level</th>
+              <th scope="col">Years of Experience</th>
+              <th scope="col">Salary</th>
+              <th scope="col">Department</th>
+            </tr>
+          </thead>
+          <tbody>
+        {% for each in department_employees %}
+            <tr>
+                <th scope="row">{{ each.id }}</th>
+              <td>{{ each.fullName }}</td>
+              <td>{{ each.gender }}</td>
+              <td>{{ each.email }}</td>
+              <td>{{ each.phoneNumber }}</td>
+              <td>{{ each.title }}</td>
+              <td>{{ each.level }}</td>
+              <td>{{ each.yoe }}</td>
+              <td>{{ each.salary }}</td>
+              <td>{{ each.department.name }}</td>
+            </tr>
+       {% endfor %}
+          </tbody>
+        </table>
+
+{% endblock %}

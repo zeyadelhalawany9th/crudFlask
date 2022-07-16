@@ -1,79 +1,60 @@
-{% extends 'base.html' %} {% block body %}
+{% extends 'base.html' %}
 
-<button
-  type="button"
-  class="btn btn-primary"
-  data-toggle="modal"
-  data-target="#exampleModal"
->
-  Add Department
-</button>
+{% block body %}
 
-{% include 'includes/_flash.html' %}
+    <h1>Departments</h1>
+    
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add Department</button>
+
+
+    {% include 'includes/_flash.html' %}
 
 <!-- Modal -->
-<div
-  class="modal fade"
-  id="exampleModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add an employee</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <h5 class="modal-title" id="exampleModalLabel">Add a department</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
+        <span></span>
       </div>
       <div class="modal-body">
-        <form action="/departments" method="post">
-          <div class="form-group">
-            <label for="fullName">Department</label>
-            <input
-              type="text"
-              name="fullName"
-              class="form-control form-control-sm"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-success">Submit</button>
-          </div>
-        </form>
+            <form action="/departments" method="post">
+                <div class="form-group">
+                        <label for="fullName">Department name</label>
+                        <input type="text" name="fullName" class="form-control form-control-sm" required>
+                </div>
+
+               <div class="form-group">
+                   <button type="submit" class="btn btn-success">Submit</button>
+               </div>
+            </form>
       </div>
+
     </div>
   </div>
 </div>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">View Employees</th>
-      <th scope="col">Department Name</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for each in madepts %}
-    <tr>
-      <th scope="row">{{ each.id }}</th>
-      <
-      <th scope="row">
-        <a href="/department/employees/{{ each.id }}">View Employees</a>
-      </th>
-      <
-      <td>{{ each.name }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+    <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Department Name</th>
+              <th scope="col">View Employees</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for each in allDepts %}
+            <tr>
+              <th scope="row">{{ each.id }}</th>
+              <td>{{ each.name }}</td>
+              <th scope="row"><a href="/department/employees/{{ each.id }}">View Employees</a></th>
+            </tr>
+          {% endfor %}
+          </tbody>
+    </table>
 
 {% endblock %}
+
